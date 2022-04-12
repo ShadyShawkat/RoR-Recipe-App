@@ -1,0 +1,15 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @recipe %>
+
+<div>
+
+  <% if user_signed_in? && current_user.id == @recipe.user_id %>
+    <%= link_to "Edit this recipe", edit_recipe_path(@recipe) %> |
+  <% end %>
+  <%= link_to "Back to recipes", recipes_path %>
+
+  <% if user_signed_in? && current_user.id == @recipe.user_id %>
+    <%= button_to "Destroy this recipe", @recipe, method: :delete %>
+  <% end %>
+</div>
