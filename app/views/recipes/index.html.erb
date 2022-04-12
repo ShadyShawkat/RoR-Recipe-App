@@ -5,9 +5,11 @@
 <div id="recipes">
   <% @recipes.each do |recipe| %>
     <%= render recipe %>
-    <p>
-      <%= link_to "Show this recipe", recipe %>
-    </p>
+    <% if (current_user && current_user.id == recipe.user_id) || recipe.public %>
+      <p>
+        <%= link_to "Show this recipe", recipe %>
+      </p>
+    <% end %>
   <% end %>
 </div>
 
