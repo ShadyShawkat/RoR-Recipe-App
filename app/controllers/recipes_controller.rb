@@ -6,6 +6,11 @@ class RecipesController < ApplicationController
     @recipes = Recipe.all
   end
 
+  def public
+    @recipes = Recipe.where(public: true).order(created_at: :desc)
+    render :index
+  end
+
   # GET /recipes/1 or /recipes/1.json
   def show; end
 
