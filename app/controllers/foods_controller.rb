@@ -20,7 +20,7 @@ class FoodsController < ApplicationController
 
   # POST /foods or /foods.json
   def create
-    if !food_recipe_params[:recipe_id] ||food_recipe_params[:food_id] == 'Add new food'
+    if !food_recipe_params[:recipe_id] || food_recipe_params[:food_id] == 'Add new food'
       @food = current_user.foods.new(food_params)
       respond_to do |format|
         food_create_helper(format, @food)
