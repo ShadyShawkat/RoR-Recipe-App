@@ -1,0 +1,27 @@
+ <div class="container">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="text-center">
+          <th>Food</th>
+          <th>Quantity</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @foods.length == 0 %>
+        <tr class="text-center fw-bold">
+          <td colspan="4">No ingredients found</td>
+        </tr>
+        <% else %>
+          <% @foods.each do |food| %>
+            <tr class="text-center">
+              <td><%= food.name %></td>
+              <td><%= food.recipe_foods.sum(:Quantity) %> 
+              <%= food.measurement_unit %></td>
+              <td><%= food.price * food.recipe_foods.sum(:Quantity) %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
