@@ -1,5 +1,6 @@
 class FoodsController < ApplicationController
   before_action :set_food, only: %i[show edit update destroy]
+  before_action :set_recipe, only: %i[new]
 
   # GET /foods or /foods.json
   def index
@@ -19,16 +20,23 @@ class FoodsController < ApplicationController
 
   # POST /foods or /foods.json
   def create
-    @food = current_user.foods.new(food_params)
-
-    respond_to do |format|
-      if @food.save
-        format.html { redirect_to food_url(@food), notice: 'Food was successfully created.' }
-        format.json { render :show, status: :created, location: @food }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @food.errors, status: :unprocessable_entity }
+    if !food_recipe_params[:recipe_id] || food_recipe_params[:food_id] == 'Add new food'
+      @food = current_user.foods.new(food_params)
+      respond_to do |format|
+        food_create_helper(format, @food)
       end
+    end
+    return unless food_recipe_params[:recipe_id]
+
+    new_food = food_recipe_params[:food_id] == 'Add new food'
+    RecipeFood.create(food_id: new_food ? @food.id : food_recipe_params[:food_id],
+                      recipe_id: food_recipe_params[:recipe_id], Quantity: food_recipe_params[:Quantity])
+    return if food_recipe_params[:food_id] == 'Add new food'
+
+    @food = Food.find(food_recipe_params[:food_id])
+    respond_to do |format|
+      format.html { redirect_to food_url(@food), notice: 'Food was successfully added to the recipe.' }
+      format.json { render :show, status: :created, location: @food }
     end
   end
 
@@ -62,8 +70,27 @@ class FoodsController < ApplicationController
     @food = Food.find(params[:id])
   end
 
+  def set_recipe
+    @recipe = Recipe.find(params[:recipe_id]) if params[:recipe_id]
+  end
+
   # Only allow a list of trusted parameters through.
   def food_params
     params.require(:food).permit(:name, :measurement_unit, :price)
+  end
+
+  # Only allow a list of trusted parameters through with recipe id.
+  def food_recipe_params
+    params.require(:food).permit(:recipe_id, :Quantity, :food_id)
+  end
+
+  def food_create_helper(format, food)
+    if food.save
+      format.html { redirect_to food_url(food), notice: 'Food was successfully created.' }
+      format.json { render :show, status: :created, location: food }
+    else
+      format.html { render :new, status: :unprocessable_entity }
+      format.json { render json: food.errors, status: :unprocessable_entity }
+    end
   end
 end

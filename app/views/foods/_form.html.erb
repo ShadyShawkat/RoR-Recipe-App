@@ -11,20 +11,41 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
-  </div>
+  <% unless @recipe.nil? %>
+    <div>
+      <%= form.select(:food_id, ['Add new food'] + Food.where(user_id: current_user.id).collect {|f| [f.name, f.id]}, selected: Food.first.id) %>
+    </div>
+  <% end %>
 
-  <div>
-    <%= form.label :measurement_unit, style: "display: block" %>
-    <%= form.number_field :measurement_unit %>
-  </div>
+    <div id='food-form-group' class=<%="#{'d-none' unless @recipe.nil? }"%>>
+      <div>
+        <%= form.label :name, style: "display: block" %>
+        <%= form.text_field :name %>
+      </div>
 
-  <div>
-    <%= form.label :price, style: "display: block" %>
-    <%= form.number_field :price %>
-  </div>
+      <div>
+        <%= form.label :measurement_unit, style: "display: block" %>
+        <%= form.number_field :measurement_unit %>
+      </div>
+
+      <div>
+        <%= form.label :price, style: "display: block" %>
+        <%= form.number_field :price %>
+      </div>
+    </div>
+
+  <% unless @recipe.nil? %>
+    <div>
+      <%= form.hidden_field :recipe_id, value: @recipe.nil? ? nil : @recipe.id %>
+    </div>
+  <% end %>
+
+  <% unless @recipe.nil? %>
+    <div>
+      <%= form.label :Quantity, style: "display: block" %>
+      <%= form.number_field :Quantity %>
+    </div>
+  <% end %>
 
   <div>
     <%= form.submit %>

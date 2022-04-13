@@ -13,3 +13,11 @@
  *= require_tree .
  *= require_self
  */
+
+.d-none {
+  display: none;
+}
+
+.d-block {
+  display: block;
+}
