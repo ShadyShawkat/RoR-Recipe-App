@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get '/recipes/public', to: 'recipes#public'
+  get '/foods/new(/:recipe_id)', to: 'foods#new'
   resources :foods
   resources :recipes
   devise_for :users
