@@ -34,9 +34,11 @@
       </div>
     </div>
 
-  <div>
-    <%= form.hidden_field :recipe_id, value: @recipe.nil? ? nil : @recipe.id %>
-  </div>
+  <% unless @recipe.nil? %>
+    <div>
+      <%= form.hidden_field :recipe_id, value: @recipe.nil? ? nil : @recipe.id %>
+    </div>
+  <% end %>
 
   <% unless @recipe.nil? %>
     <div>

@@ -20,24 +20,19 @@ class FoodsController < ApplicationController
 
   # POST /foods or /foods.json
   def create
-    if food_recipe_params[:food_id] == 'Add new food'
+    if !food_recipe_params[:recipe_id] ||food_recipe_params[:food_id] == 'Add new food'
       @food = current_user.foods.new(food_params)
       respond_to do |format|
-        if @food.save
-          format.html { redirect_to food_url(@food), notice: 'Food was successfully created.' }
-          format.json { render :show, status: :created, location: @food }
-        else
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @food.errors, status: :unprocessable_entity }
-        end
+        food_create_helper(format, @food)
       end
     end
-
     return unless food_recipe_params[:recipe_id]
+
     new_food = food_recipe_params[:food_id] == 'Add new food'
-    RecipeFood.create(food_id: new_food ? @food.id : food_recipe_params[:food_id], recipe_id: food_recipe_params[:recipe_id], Quantity: food_recipe_params[:Quantity])
-    
+    RecipeFood.create(food_id: new_food ? @food.id : food_recipe_params[:food_id],
+                      recipe_id: food_recipe_params[:recipe_id], Quantity: food_recipe_params[:Quantity])
     return if food_recipe_params[:food_id] == 'Add new food'
+
     @food = Food.find(food_recipe_params[:food_id])
     respond_to do |format|
       format.html { redirect_to food_url(@food), notice: 'Food was successfully added to the recipe.' }
@@ -73,8 +68,8 @@ class FoodsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_food
     @food = Food.find(params[:id])
-  end  
-  
+  end
+
   def set_recipe
     @recipe = Recipe.find(params[:recipe_id]) if params[:recipe_id]
   end
@@ -87,5 +82,15 @@ class FoodsController < ApplicationController
   # Only allow a list of trusted parameters through with recipe id.
   def food_recipe_params
     params.require(:food).permit(:recipe_id, :Quantity, :food_id)
+  end
+
+  def food_create_helper(format, food)
+    if food.save
+      format.html { redirect_to food_url(food), notice: 'Food was successfully created.' }
+      format.json { render :show, status: :created, location: food }
+    else
+      format.html { render :new, status: :unprocessable_entity }
+      format.json { render json: food.errors, status: :unprocessable_entity }
+    end
   end
 end
