@@ -17,7 +17,6 @@
   <% end %>
 
 
-
   <div class="container">
     <table class="table table-bordered table-striped">
       <thead>
@@ -39,8 +38,8 @@
           <% @recipe.recipe_foods.each do |ing| %>
             <tr class="text-center">
               <td><%= ing.food.name %></td>
-              <td><%= ing.quantity %> <%= ing.food.measurement_unit %></td>
-              <td><%= ing.food.price * ing.quantity %></td>
+              <td><%= ing.Quantity %> <%= ing.food.measurement_unit %></td>
+              <td><%= ing.food.price * ing.Quantity %></td>
               <% if current_user && current_user.id == @recipe.user_id %>
                 <td class="d-flex gap-3 justify-content-center">
                   <%= link_to "Modify", edit_recipe_food_path(ing), class: 'btn btn-primary'%>
@@ -53,6 +52,4 @@
       </tbody>
     </table>
   </div>
-
-
 </div>
