@@ -1,3 +1,9 @@
+ <h2 class="text-center">Shopping List</h2>
+ <div class="d-flex justify-content-around p-5">
+  <h5>Amount of food items to buy: <%= @foods.length %></h5>
+  <h5>Total value of food needed: <%= @foods.sum{|food| food.recipe_foods.sum(:Quantity) * food.price } %></h5>
+ </div>
+
  <div class="container">
     <table class="table table-bordered table-striped">
       <thead>
@@ -18,7 +24,7 @@
               <td><%= food.name %></td>
               <td><%= food.recipe_foods.sum(:Quantity) %> 
               <%= food.measurement_unit %></td>
-              <td><%= food.price * food.recipe_foods.sum(:Quantity) %></td>
+              <td><%= food.price * food.recipe_foods.sum(:Quantity) %> $</td>
             </tr>
           <% end %>
         <% end %>
