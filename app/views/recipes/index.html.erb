@@ -1,18 +1,32 @@
-<p style="color: green"><%= notice %></p>
 
-<h1>Recipes</h1>
 
-<div id="recipes">
-  <% @recipes.each do |recipe| %>
-    <%= render recipe %>
-    <% if (current_user && current_user.id == recipe.user_id) || recipe.public %>
-      <p>
-        <%= link_to "Show this recipe", recipe %>
-      </p>
-    <% end %>
-  <% end %>
+<div class="container d-flex justify-content-between px-5 py-3">
+  <h2>Recipes</h2>
+
+  <% if user_signed_in? %>
+      <%= link_to "New Recipe", new_recipe_path, class: 'btn btn-primary align-self-center' %>
+  <% end %> 
 </div>
 
-<% if user_signed_in? %>
-  <%= link_to "New recipe", new_recipe_path %>
-<% end %>
+<div id="recipes" class="container">
+  <% @recipes.each do |recipe| %>
+    <div class="border border-info row p-3 m-3">
+      <div class="col-4">
+        <h2><%= recipe.name %></h2>
+        <div class="d-flex gap-3">
+          <% if user_signed_in? && current_user.id == recipe.user_id %>
+            <%= button_to "Remove", recipe, method: :delete, class: 'btn btn-danger'%>
+            <%= link_to "Edit", edit_recipe_path(recipe), class: 'btn btn-info' %>
+          <% end %>
+          <% if (current_user && current_user.id == recipe.user_id) || recipe.public %>
+              <%= link_to "Details", recipe, class: 'btn btn-primary' %>
+          <% end %>
+        </div>
+      </div>
+      <div class="col-4">
+        <h2>Description:</h2>
+        <p><%= recipe.description %></p>
+      </div>
+    </div>
+  <% end %>
+</div>

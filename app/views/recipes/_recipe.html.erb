@@ -1,9 +1,4 @@
-<div id="<%= dom_id recipe %>">
-  <p>
-    <strong>Name:</strong>
-    <%= recipe.name %>
-  </p>
-
+<div id="<%= dom_id recipe %>" class="container">
   <p>
     <strong>Preparation time:</strong>
     <%= recipe.preparation_time %>
@@ -21,7 +16,7 @@
 
   <p>
     <strong>Public:</strong>
-    <%= recipe.public %>
+    <input type="checkbox" disabled <%= "checked" if recipe.public %>>
   </p>
 
 </div>
