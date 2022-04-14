@@ -1,4 +1,4 @@
-<%= form_with(model: recipe) do |form| %>
+<%= form_with(model: recipe, class: "text-center container") do |form| %>
   <% if recipe.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(recipe.errors.count, "error") %> prohibited this recipe from being saved:</h2>
@@ -12,31 +12,31 @@
   <% end %>
 
   <div>
-    <%= form.label :name, style: "display: block" %>
+    <%= form.label :name, style: "display: block", class: "form-label"  %>
     <%= form.text_field :name %>
   </div>
 
   <div>
-    <%= form.label :preparation_time, style: "display: block" %>
+    <%= form.label :preparation_time, style: "display: block", class: "form-label"  %>
     <%= form.number_field :preparation_time %>
   </div>
 
   <div>
-    <%= form.label :cooking_time, style: "display: block" %>
+    <%= form.label :cooking_time, style: "display: block", class: "form-label"  %>
     <%= form.number_field :cooking_time %>
   </div>
 
   <div>
-    <%= form.label :description, style: "display: block" %>
+    <%= form.label :description, style: "display: block", class: "form-label"  %>
     <%= form.text_area :description %>
   </div>
 
   <div>
-    <%= form.label :public, style: "display: block" %>
+    <%= form.label :public, style: "padding-right: 10px"  %>
     <%= form.check_box :public %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="m-3">
+    <%= form.submit "Create", class: "btn btn-success" %>
   </div>
 <% end %>
