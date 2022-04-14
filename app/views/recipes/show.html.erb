@@ -1,23 +1,18 @@
-
-
+<h2 class="text-center"><%= @recipe.name %></h2>
 <%= render @recipe %>
 
-<div>
+<div class="container">
 
-  <% if user_signed_in? && current_user.id == @recipe.user_id %>
-    <%= link_to "Edit this recipe", edit_recipe_path(@recipe) %> |
-  <% end %>
-  <% if user_signed_in? && current_user.id == @recipe.user_id %>
-    <%= link_to "Add ingredient", new_food_path(recipe_id: @recipe.id) %> |
-  <% end %>
-  <%= link_to "Back to recipes", recipes_path %>
+  <div class="d-flex justify-content-between py-4">
+    <%= link_to "General Shopping List", general_shopping_list_path, class: 'btn btn-primary' %>
 
-  <% if user_signed_in? && current_user.id == @recipe.user_id %>
-    <%= button_to "Destroy this recipe", @recipe, method: :delete %>
-  <% end %>
+    <% if user_signed_in? && current_user.id == @recipe.user_id %>
+      <%= link_to "Add ingredient", new_food_path(recipe_id: @recipe.id), class: 'btn btn-primary' %>
+    <% end %>
+  </div>
 
 
-  <div class="container">
+  <div>
     <table class="table table-bordered table-striped">
       <thead>
         <tr class="text-center">
@@ -52,4 +47,8 @@
       </tbody>
     </table>
   </div>
+</div>
+
+<div class="text-center">
+  <%= link_to "Back to recipes", recipes_path %>
 </div>
