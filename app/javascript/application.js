@@ -1,11 +1,13 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 import "@hotwired/turbo-rails"
 import "controllers"
-
-document.getElementById("food_food_id").addEventListener('click', (e) => {
+const foodFormGroup = document.getElementById("food-form-group");
+document.getElementById("food_food_id").addEventListener('change', (e) => {
   if(e.target.value === 'Add new food') {
-    document.getElementById("food-form-group").classList.add('d-block')
+    foodFormGroup.classList.add('d-block')
+    foodFormGroup.classList.remove('d-none')
   } else {
-    document.getElementById("food-form-group").classList.remove('d-block')
+    foodFormGroup.classList.remove('d-block')
+    foodFormGroup.classList.add('d-none')
   }
 })
