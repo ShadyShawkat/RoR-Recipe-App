@@ -1,0 +1,53 @@
+<%= form_with(model: food, class: "text-center container") do |form| %>
+  <% if food.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(food.errors.count, "error") %> prohibited this food from being saved:</h2>
+
+      <ul>
+        <% food.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% unless @recipe.nil? %>
+    <div>
+      <%= form.select(:food_id, ['Add new food'] + Food.where(user_id: current_user.id).collect {|f| [f.name, f.id]}, selected: Food.first.id) %>
+    </div>
+  <% end %>
+
+    <div id='food-form-group' class=<%="#{'d-none' unless @recipe.nil? }"%>>
+      <div>
+        <%= form.label :name, style: "display: block", class: "form-label" %>
+        <%= form.text_field :name %>
+      </div>
+
+      <div>
+        <%= form.label :measurement_unit, style: "display: block", class: "form-label" %>
+        <%= form.text_field :measurement_unit %>
+      </div>
+
+      <div>
+        <%= form.label :price, style: "display: block", class: "form-label" %>
+        <%= form.number_field :price %>
+      </div>
+    </div>
+
+  <% unless @recipe.nil? %>
+    <div>
+      <%= form.hidden_field :recipe_id, value: @recipe.nil? ? nil : @recipe.id %>
+    </div>
+  <% end %>
+
+  <% unless @recipe.nil? %>
+    <div>
+      <%= form.label :Quantity, style: "display: block" %>
+      <%= form.number_field :Quantity %>
+    </div>
+  <% end %>
+
+  <div class="m-3">
+    <%= form.submit "Create", class: "btn btn-success" %>
+  </div>
+<% end %>

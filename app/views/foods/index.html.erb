@@ -1,0 +1,46 @@
+
+
+<div class="container d-flex justify-content-between px-5 py-3">
+  <h2>Foods</h2>
+
+  <% if user_signed_in? %>
+      <%= link_to "New food", new_food_path, class: 'btn btn-primary align-self-center' %>
+  <% end %> 
+</div>
+
+<div id="foods">
+  <div class="container">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="text-center">
+          <th>Name</th>
+          <th>Measurement unit</th>
+          <th>Unit Price</th>
+          <% if user_signed_in? %>
+            <th>Actions</th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @foods.length === 0 %>
+          <tr class="text-center fw-bold">
+            <td colspan="4">No foods found</td>
+          </tr>
+        <% else %>
+          <% @foods.each do |food| %>
+            <tr class="text-center">
+              <td><%= food.name %></td>
+              <td><%= food.measurement_unit %></td>
+              <td><%= food.price %> $</td>
+              <% if current_user && current_user.id == food.user_id %>
+                <td class="d-flex gap-3 justify-content-center">
+                  <%= button_to "Remove", food, method: :delete, class: 'btn btn-danger' %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

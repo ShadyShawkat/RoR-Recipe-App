@@ -1,0 +1,54 @@
+<h2 class="text-center"><%= @recipe.name %></h2>
+<%= render @recipe %>
+
+<div class="container">
+
+  <div class="d-flex justify-content-between py-4">
+    <%= link_to "General Shopping List", general_shopping_list_path, class: 'btn btn-primary' %>
+
+    <% if user_signed_in? && current_user.id == @recipe.user_id %>
+      <%= link_to "Add ingredient", new_food_path(recipe_id: @recipe.id), class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+
+
+  <div>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="text-center">
+          <th>Food</th>
+          <th>Quantity</th>
+          <th>Value</th>
+          <% if current_user && current_user.id == @recipe.user_id %>
+            <th>Actions</th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @recipe.recipe_foods.length === 0 %>
+        <tr class="text-center fw-bold">
+          <td colspan="4">No ingredients found</td>
+        </tr>
+        <% else %>
+          <% @recipe.recipe_foods.each do |ing| %>
+            <tr class="text-center">
+              <td><%= ing.food.name %></td>
+              <td><%= ing.Quantity %> <%= ing.food.measurement_unit %></td>
+              <td><%= ing.food.price * ing.Quantity %></td>
+              <% if current_user && current_user.id == @recipe.user_id %>
+                <td class="d-flex gap-3 justify-content-center">
+                  <%= link_to "Modify", edit_recipe_food_path(ing), class: 'btn btn-primary'%>
+                  <%= button_to "Delete", ing, method: :delete, class: 'btn btn-danger'%>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="text-center">
+  <%= link_to "Back to recipes", recipes_path %>
+</div>
