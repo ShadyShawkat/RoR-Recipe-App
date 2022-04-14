@@ -36,7 +36,7 @@ class RecipeFoodsController < ApplicationController
   def update
     respond_to do |format|
       if @recipe_food.update(recipe_food_params)
-        format.html { redirect_to recipe_food_url(@recipe_food), notice: 'Recipe food was successfully updated.' }
+        format.html { redirect_to recipe_url(@recipe_food.recipe), notice: 'Recipe food was successfully updated.' }
         format.json { render :show, status: :ok, location: @recipe_food }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -50,7 +50,7 @@ class RecipeFoodsController < ApplicationController
     @recipe_food.destroy
 
     respond_to do |format|
-      format.html { redirect_to recipe_foods_url, notice: 'Recipe food was successfully destroyed.' }
+      format.html { redirect_to recipe_url(@recipe_food.recipe), notice: 'Recipe food was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
