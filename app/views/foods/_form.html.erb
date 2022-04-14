@@ -1,4 +1,4 @@
-<%= form_with(model: food) do |form| %>
+<%= form_with(model: food, class: "text-center container") do |form| %>
   <% if food.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(food.errors.count, "error") %> prohibited this food from being saved:</h2>
@@ -19,17 +19,17 @@
 
     <div id='food-form-group' class=<%="#{'d-none' unless @recipe.nil? }"%>>
       <div>
-        <%= form.label :name, style: "display: block" %>
+        <%= form.label :name, style: "display: block", class: "form-label" %>
         <%= form.text_field :name %>
       </div>
 
       <div>
-        <%= form.label :measurement_unit, style: "display: block" %>
+        <%= form.label :measurement_unit, style: "display: block", class: "form-label" %>
         <%= form.text_field :measurement_unit %>
       </div>
 
       <div>
-        <%= form.label :price, style: "display: block" %>
+        <%= form.label :price, style: "display: block", class: "form-label" %>
         <%= form.number_field :price %>
       </div>
     </div>
@@ -47,7 +47,7 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.submit %>
+  <div class="m-3">
+    <%= form.submit "Create", class: "btn btn-success" %>
   </div>
 <% end %>
