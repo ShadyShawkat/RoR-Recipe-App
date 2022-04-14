@@ -29,13 +29,13 @@ class FoodsController < ApplicationController
     return unless food_recipe_params[:recipe_id]
 
     new_food = food_recipe_params[:food_id] == 'Add new food'
-    RecipeFood.create(food_id: new_food ? @food.id : food_recipe_params[:food_id],
+    recipefood = RecipeFood.create(food_id: new_food ? @food.id : food_recipe_params[:food_id],
                       recipe_id: food_recipe_params[:recipe_id], Quantity: food_recipe_params[:Quantity])
     return if food_recipe_params[:food_id] == 'Add new food'
 
     @food = Food.find(food_recipe_params[:food_id])
     respond_to do |format|
-      format.html { redirect_to food_url(@food), notice: 'Food was successfully added to the recipe.' }
+      format.html { redirect_to recipe_url(recipefood.recipe), notice: 'Food was successfully added to the recipe.' }
       format.json { render :show, status: :created, location: @food }
     end
   end
@@ -86,7 +86,7 @@ class FoodsController < ApplicationController
 
   def food_create_helper(format, food)
     if food.save
-      format.html { redirect_to food_url(food), notice: 'Food was successfully created.' }
+      format.html { redirect_to foods_url, notice: 'Food was successfully created.' }
       format.json { render :show, status: :created, location: food }
     else
       format.html { render :new, status: :unprocessable_entity }
