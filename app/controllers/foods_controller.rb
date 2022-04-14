@@ -30,7 +30,7 @@ class FoodsController < ApplicationController
 
     new_food = food_recipe_params[:food_id] == 'Add new food'
     recipefood = RecipeFood.create(food_id: new_food ? @food.id : food_recipe_params[:food_id],
-                      recipe_id: food_recipe_params[:recipe_id], Quantity: food_recipe_params[:Quantity])
+                                   recipe_id: food_recipe_params[:recipe_id], Quantity: food_recipe_params[:Quantity])
     return if food_recipe_params[:food_id] == 'Add new food'
 
     @food = Food.find(food_recipe_params[:food_id])
